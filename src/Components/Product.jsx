@@ -21,7 +21,7 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
 
   const handleCart = (elem) => {
     setToggle(true)
@@ -198,7 +198,7 @@ const Product = () => {
               data.map((elem) => {
                 return (
                   <div id={style.box} key={elem.id}>
-                    <img src={elem.imageURL} />
+                    <img src={elem.imageURL} alt="pic"/>
                     <div id={style.boxBottom}>
                       {elem.price}
                       <button onClick={() => handleCart(elem)}>

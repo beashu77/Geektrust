@@ -10,7 +10,7 @@ const Cart = () => {
   const dispatch =useDispatch()
   console.log(cart)
 
-  
+
   useEffect(() => {
     setTotal(cart.reduce((acc,curr)=>acc+Number(curr.price),0))
   }, [cart]);
@@ -52,7 +52,7 @@ const handleDelete=(id)=>{
                
                 return (
                   <ul key={uuid()} id={style.CartContainerRight}>
-                    <li><img src={elem.imageURL} /></li>
+                    <li><img src={elem.imageURL} alt="pic"/></li>
                     <li>
                       {elem.name}
                       <br/>
@@ -68,8 +68,8 @@ const handleDelete=(id)=>{
           </div>
 
           <div>
-            <hr />
-            <h3>Total amount Rs.{total}</h3>
+            <hr id={style.hr} />
+            <h3 style={{textAlign:"left",marginLeft:'15px'}}>Total amount Rs.{total}</h3>
           </div>
     </div>
   );
