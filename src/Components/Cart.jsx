@@ -1,20 +1,26 @@
 import React,{useState,useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import style from "./style.module.css";
-
+import {Link} from "react-router-dom"
+import {v4 as uuid} from "uuid";
+import { removeCart } from "../Redux/action";
 const Cart = () => {
+  const [total,setTotal] =useState(0)
+  const cart = useSelector((store)=>store.cart);
+  const dispatch =useDispatch()
+  console.log(cart)
 
-  const [cart, setCart] = useState([]);
-     
+  
   useEffect(() => {
-    fetch(
-      "https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json"
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setCart(res);
-        console.log(res);
-      });
-  }, []);
+    setTotal(cart.reduce((acc,curr)=>acc+Number(curr.price),0))
+  }, [cart]);
+
+
+const handleDelete=(id)=>{
+
+  dispatch(removeCart(id))
+  console.log(id)
+}
 
   return (
     <div>
@@ -25,12 +31,13 @@ const Cart = () => {
         </div>
         <div id={style.NavRight}>
           <div>
-            <h3>Products</h3>
+           <Link to="/">  <h3>Products</h3></Link>
           </div>
+          <Link to="/cart">
           <div id={style.cartIcon}>
-            <div>1</div>
+            <div>{cart.length}</div>
             <i className="fa-solid fa-cart-shopping"></i>
-          </div>
+          </div></Link>
         </div>
       </div>
 
@@ -40,18 +47,21 @@ const Cart = () => {
 
 
       <div id={style.CartContainer}>
-            {cart.length > 0 &&
+            {cart &&
               cart.map((elem) => {
+               
                 return (
-                  <ul key={elem.id} id={style.CartContainerRight}>
+                  <ul key={uuid()} id={style.CartContainerRight}>
                     <li><img src={elem.imageURL} /></li>
                     <li>
                       {elem.name}
                       <br/>
                       {elem.price}
                       </li>
-                    <li><button>Quantity <i class="fa-sharp fa-solid fa-caret-down"></i></button></li>
-                    <li><button>Delete</button></li>
+                    <li><button disabled>Quantity <i className="fa-sharp fa-solid fa-caret-down"></i></button></li>
+                    <li><button onClick={()=>{
+                      handleDelete(elem.id)
+                    }}>Delete</button></li>
                   </ul>
                 );
               })}
@@ -59,7 +69,7 @@ const Cart = () => {
 
           <div>
             <hr />
-            <h3>Total amount Rs.2200</h3>
+            <h3>Total amount Rs.{total}</h3>
           </div>
     </div>
   );
