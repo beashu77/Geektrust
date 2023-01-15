@@ -17,13 +17,14 @@ const Product = () => {
   console.log(filter);
   const dispatch = useDispatch();
   const [text, setText] = useState("");
-  
+  const [toggle,setToggle] =useState(false)
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
 
   const handleCart = (elem) => {
+    setToggle(true)
     dispatch(addCart(elem));
   };
 
@@ -49,7 +50,7 @@ const Product = () => {
           </div>
           <Link to="/cart">
             <div id={style.cartIcon}>
-              <div><p style={{fontSize:"12px"}}>{cart.length}</p></div>
+              <div>{cart.length}</div>
               <i className="fa-solid fa-cart-shopping"></i>
             </div>
           </Link>
@@ -201,7 +202,11 @@ const Product = () => {
                     <div id={style.boxBottom}>
                       {elem.price}
                       <button onClick={() => handleCart(elem)}>
-                      {"Add to Cart"}
+                      {toggle ? <>
+                      <button>-</button>
+                      1
+                      <button>+</button>
+                      </> :"Add to Cart"}
                       </button>
                     </div>
                   </div>
