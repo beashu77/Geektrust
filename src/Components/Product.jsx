@@ -202,11 +202,7 @@ const Product = () => {
                     <div id={style.boxBottom}>
                       {elem.price}
                       <button onClick={() => handleCart(elem)}>
-                      {toggle ? <>
-                      <button>-</button>
-                      1
-                      <button>+</button>
-                      </> :"Add to Cart"}
+                     "Add to Cart"
                       </button>
                     </div>
                   </div>
